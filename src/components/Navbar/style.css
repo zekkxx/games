@@ -1,0 +1,26 @@
+nav{
+    background-color: black;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+h2{
+    color: whitesmoke;
+}
+ul{
+    list-style-type: none;
+}
+li{
+    display: inline;
+}
+a{
+    color: white;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+a:hover{
+    color: silver !important;
+}
+a:visited{
+    color:white;
+}
