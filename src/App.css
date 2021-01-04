@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+main{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.breakbar{
+  height: 5px;
+  margin-bottom: 5px;
+  background-color: #000000;
+}

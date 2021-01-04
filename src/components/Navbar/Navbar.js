@@ -7,6 +7,7 @@ function Navbar(){
         <nav>
             <h2><Link to="/">K's Game Collection!</Link></h2>
             <ul>
+                <li><Link to="/library">Library</Link></li>
                 <li><Link to="/about">About</Link></li>
             </ul>
         </nav>
