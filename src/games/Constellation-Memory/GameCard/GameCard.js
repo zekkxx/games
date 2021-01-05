@@ -6,7 +6,7 @@ function GameCard(props) {
         <img
             src={"/images/"+props.name+".jpg"}
             alt={props.name+" constellation"}
-            onClick={() => props.log(props.name)}
+            onClick={() => props.onClick(props.name)}
         />
     );
 }

@@ -10,68 +10,58 @@ function ConstellationMemoryGame(){
         score: 0
     })
 
-    // //is there an array function we can use that will work instead?
-    // const hasName = (array, value) => {
-    //     for(let i=0; i<array.length; i++){
-    //         if(array[i]===value){
-    //             return true;
-    //         }
-    //     }
-    //     return false
-    // }
+    //Is there a more elegant way to resolve this?
+    const checkHighScore = () => {
+        if(gameState.score === gameState.highscore){
+            setGameState({...gameState, score:gameState.score+1, highscore:gameState.score+1})
+        } else {
+            setGameState({...gameState, score:gameState.score+1});
+        }
+    }
 
-    // //Is there a more elegant way to resolve this?
-    // const checkHighScore = () => {
-    //     if(gameState.score + 1 > gameState.highscore){
-    //         setGameState({...gameState, score:gameState.score+1, highscore:gameState.score+1})
-    //     } else {
-    //         setGameState({...gameState, score:gameState.score+1});
-    //     }
-    // }
+    const shuffleCards = () => {
+        let numArray=[];
+        for(let i=0; i<12; i++){
+            let num = Math.floor(Math.random()*constellations.length);
+            if(numArray.indexOf(num) !== -1){
+                i--;
+            } else {
+                numArray.push(num);
+            }
+        }
+        console.log(numArray);
+        let newArray=[];
+        for(let i=0; i<numArray.length;i++){
+            let index = numArray[i];
+            newArray.push(constellations[index]);
+        }
+        console.log(newArray);
+        setGameState({...gameState, shuffledArray:newArray});
+    }
 
-    // const shuffleCards = () => {
-    //     let numArray=[];
-    //     for(let i=0; gameState.shuffledArray.length; i++){
-    //         let num = Math.floor(Math.random()*gameState.shuffledArray.length);
-    //         if(numArray.indexOf(num) !== -1){
-    //             i--;
-    //         } else {
-    //             numArray.push(num);
-    //         }
-    //     }
-    //     let newArray=[];
-    //     for(let i=0; numArray.length;i++){
-    //         let index = numArray[i];
-    //         newArray.push(gameState.shuffledArray[index]);
-    //     }
-    //     setGameState({...gameState, shuffledArray:newArray});
-    // }
-
-    // const log = name => {
-    //     console.log("We made it this far");
-    //     let newArray = gameState.chosenArray;
-    //     if(hasName(newArray, name)){
-    //         setGameState({...gameState, shuffledArray:constellations, chosenArray:[], score:0});
-    //         //Maybe add additional message like: "Ya already got that one!"
-    //     } else {
-    //         newArray.push(name);
-    //         setGameState({...gameState, chosenArray: newArray});
-    //         checkHighScore();
-    //         shuffleCards();
-    //     }
-    // }
-
-    const log = name => {
+    const chooseCard = name => {
         console.log(name);
+        let newArray = gameState.chosenArray;
+        if(gameState.chosenArray.includes(name)){
+            console.log("Choice was in chosenArray");
+            setGameState({...gameState, chosenArray:[], score:0});
+            //Maybe add additional message like: "Ya already got that one!"
+        } else {
+            console.log("Choice was not in chosenArray")
+            newArray.push(name);
+            setGameState({...gameState, chosenArray: newArray});
+            checkHighScore();
+            shuffleCards();
+        }
     }
 
     return(
         <>
-            <h1>Score: {0} || High Score: {25}</h1>
-            {0===constellations.length? <h2>You've made the top score possible!</h2> : null}
+            <h1>Score: {gameState.score} || High Score: {gameState.highscore}</h1>
+            {gameState.score===constellations.length? <h2>You've made the top score possible!</h2> : null}
             {gameState.shuffledArray.map(constellation => (
                 <GameCard
-                    log={log}
+                    onClick={chooseCard}
                     name={constellation}
                     key={constellations.indexOf(constellation)}
                 />
