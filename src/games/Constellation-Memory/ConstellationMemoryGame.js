@@ -10,8 +10,6 @@ function ConstellationMemoryGame(){
         score: 0
     })
     
-
-    //Is there a more elegant way to resolve this?
     const updateScore = () => {
         if (localStorage.getItem('highscore') > scoreState.highscore){
             setScoreState({score:chosenArrayState.length, highscore:localStorage.getItem('highscore')});
@@ -24,19 +22,12 @@ function ConstellationMemoryGame(){
     }
 
     const shuffleCards = () => {
-        let numArray=[];
-        for(let i=0; i<12; i++){
-            let num = Math.floor(Math.random()*constellations.length);
-            if(numArray.indexOf(num) !== -1){
-                i--;
-            } else {
-                numArray.push(num);
-            }
-        }
         let newArray=[];
-        for(let i=0; i<numArray.length;i++){
-            let index = numArray[i];
-            newArray.push(constellations[index]);
+        while(newArray.length < 12){
+            let constellation = constellations[Math.floor(Math.random()*constellations.length)];
+            if(!newArray.includes(constellation)){
+                newArray.push(constellation);
+            }
         }
         setGameArrayState(newArray);
     }

@@ -5,7 +5,7 @@ function About(){
     return(
         <main>
             <h1>About This Collection</h1>
-            <div class="breakbar"></div>
+            <div className="breakbar"></div>
             <p>
                 This collection of games are designed as React implementations of standard JavaScript games and activities. These were originally separate repositories and pages, but because I enjoy playing these games myself, I wanted to store them all in one location and make navigation between them all easier.
             </p>
