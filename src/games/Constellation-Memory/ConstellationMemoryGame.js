@@ -1,21 +1,25 @@
 import GameCard from './GameCard';
 import constellations from '../constellations';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 function ConstellationMemoryGame(){
-    const [gameState, setGameState] = useState({
-        shuffledArray: constellations,
-        chosenArray: [],
+    const [gameArrayState, setGameArrayState] = useState([]);
+    const [chosenArrayState, setChosenArrayState] = useState([])
+    const [scoreState, setScoreState] = useState({
         highscore: 0,
         score: 0
     })
+    
 
     //Is there a more elegant way to resolve this?
-    const checkHighScore = () => {
-        if(gameState.score === gameState.highscore){
-            setGameState({...gameState, score:gameState.score+1, highscore:gameState.score+1})
+    const updateScore = () => {
+        if (localStorage.getItem('highscore') > scoreState.highscore){
+            setScoreState({score:chosenArrayState.length, highscore:localStorage.getItem('highscore')});
+        } else if (chosenArrayState.length > scoreState.highscore){
+            setScoreState({score:chosenArrayState.length, highscore:chosenArrayState.length})
+            localStorage.setItem('highscore', chosenArrayState.length);
         } else {
-            setGameState({...gameState, score:gameState.score+1});
+            setScoreState({...scoreState, score:chosenArrayState.length});
         }
     }
 
@@ -29,37 +33,32 @@ function ConstellationMemoryGame(){
                 numArray.push(num);
             }
         }
-        console.log(numArray);
         let newArray=[];
         for(let i=0; i<numArray.length;i++){
             let index = numArray[i];
             newArray.push(constellations[index]);
         }
-        console.log(newArray);
-        setGameState({...gameState, shuffledArray:newArray});
+        setGameArrayState(newArray);
     }
 
+    useEffect(() => {
+        updateScore();
+        shuffleCards();
+    }, [chosenArrayState]);
+
     const chooseCard = name => {
-        console.log(name);
-        let newArray = gameState.chosenArray;
-        if(gameState.chosenArray.includes(name)){
-            console.log("Choice was in chosenArray");
-            setGameState({...gameState, chosenArray:[], score:0});
-            //Maybe add additional message like: "Ya already got that one!"
+        if(chosenArrayState.includes(name)){
+            setChosenArrayState([]);
         } else {
-            console.log("Choice was not in chosenArray")
-            newArray.push(name);
-            setGameState({...gameState, chosenArray: newArray});
-            checkHighScore();
-            shuffleCards();
+            setChosenArrayState([...chosenArrayState, name]);
         }
     }
 
     return(
         <>
-            <h1>Score: {gameState.score} || High Score: {gameState.highscore}</h1>
-            {gameState.score===constellations.length? <h2>You've made the top score possible!</h2> : null}
-            {gameState.shuffledArray.map(constellation => (
+            <h1>Score: {scoreState.score} || High Score: {scoreState.highscore}</h1>
+            {scoreState.score===constellations.length ? <h2>You've made the top score possible!</h2> : null}
+            {gameArrayState.map(constellation => (
                 <GameCard
                     onClick={chooseCard}
                     name={constellation}
