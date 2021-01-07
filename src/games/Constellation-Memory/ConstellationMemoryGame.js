@@ -22,13 +22,26 @@ function ConstellationMemoryGame(){
     }
 
     const shuffleCards = () => {
+        if (chosenArrayState.length === constellations.length){
+            setGameArrayState([]);
+            return;
+        }
+        // let cheatArray=[];
         let newArray=[];
+        let newEntryAdded=false;
         while(newArray.length < 12){
             let constellation = constellations[Math.floor(Math.random()*constellations.length)];
-            if(!newArray.includes(constellation)){
+            if (newArray.includes(constellation)){
+                //do nothing
+            } else if (chosenArrayState.includes(constellation) === false){
+                newEntryAdded=true;
+                newArray.push(constellation);
+                // cheatArray.push(newArray.length);
+            } else if (newArray.length < 11 || newEntryAdded){
                 newArray.push(constellation);
             }
         }
+        // console.log(cheatArray[0]);
         setGameArrayState(newArray);
     }
 
@@ -48,7 +61,8 @@ function ConstellationMemoryGame(){
     return(
         <>
             <h1>Score: {scoreState.score} || High Score: {scoreState.highscore}</h1>
-            {scoreState.score===constellations.length ? <h2>You've made the top score possible!</h2> : null}
+            {scoreState.score===constellations.length ? <h2>Congratulations! You've made the top score possible!</h2> : null}
+            {scoreState.score===constellations.length ? <input type="button" onClick={()=>chooseCard(constellations[0])} value="Replay?"/> : null}
             {gameArrayState.map(constellation => (
                 <GameCard
                     onClick={chooseCard}
