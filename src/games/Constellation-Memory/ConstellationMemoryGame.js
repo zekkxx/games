@@ -5,19 +5,14 @@ import React, {useEffect, useState} from 'react';
 function ConstellationMemoryGame(){
     const [gameArrayState, setGameArrayState] = useState([]);
     const [chosenArrayState, setChosenArrayState] = useState([])
-    const [scoreState, setScoreState] = useState({
-        highscore: 0,
-        score: 0
-    })
+    const [highscoreState, setHighscoreState] = useState(0);
     
-    const updateScore = () => {
-        if (localStorage.getItem('highscore') > scoreState.highscore){
-            setScoreState({score:chosenArrayState.length, highscore:localStorage.getItem('highscore')});
-        } else if (chosenArrayState.length > scoreState.highscore){
-            setScoreState({score:chosenArrayState.length, highscore:chosenArrayState.length})
+    const updateHighscore = () => {
+        if (localStorage.getItem('highscore') > highscoreState){
+            setHighscoreState(localStorage.getItem('highscore'));
+        } else if (chosenArrayState.length > highscoreState){
+            setHighscoreState(chosenArrayState.length)
             localStorage.setItem('highscore', chosenArrayState.length);
-        } else {
-            setScoreState({...scoreState, score:chosenArrayState.length});
         }
     }
 
@@ -46,7 +41,7 @@ function ConstellationMemoryGame(){
     }
 
     useEffect(() => {
-        updateScore();
+        updateHighscore();
         shuffleCards();
     }, [chosenArrayState]);
 
@@ -60,9 +55,9 @@ function ConstellationMemoryGame(){
 
     return(
         <>
-            <h1>Score: {scoreState.score} || High Score: {scoreState.highscore}</h1>
-            {scoreState.score===constellations.length ? <h2>Congratulations! You've made the top score possible!</h2> : null}
-            {scoreState.score===constellations.length ? <input type="button" onClick={()=>chooseCard(constellations[0])} value="Replay?"/> : null}
+            <h1>Score: {chosenArrayState.length} || High Score: {highscoreState}</h1>
+            {chosenArrayState.length===constellations.length ? <h2>Congratulations! You've made the top score possible!</h2> : null}
+            {chosenArrayState.length===constellations.length ? <input type="button" onClick={()=>chooseCard(constellations[0])} value="Replay?"/> : null}
             {gameArrayState.map(constellation => (
                 <GameCard
                     onClick={chooseCard}
