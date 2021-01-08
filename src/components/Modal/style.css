@@ -1,0 +1,85 @@
+.cover{
+    position: fixed;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    background-color: slategrey;
+    opacity: .7;
+    animation: fadeIn7 ease 1s;
+    -webkit-animation: fadeIn7 ease 1s;
+    -moz-animation: fadeIn7 ease 1s;
+    -o-animation: fadeIn7 ease 1s;
+    -ms-animation: fadeIn7 ease 1s;
+}
+
+.modalContent{
+    position: fixed;
+    width:50%;
+    height:50%;
+    top:25%;
+    left:25%;
+    opacity:1;
+    background-color: snow;
+    animation: fadeIn ease 1.5s;
+    -webkit-animation: fadeIn ease 1.5s;
+    -moz-animation: fadeIn ease 1.5s;
+    -o-animation: fadeIn ease 1.5s;
+    -ms-animation: fadeIn ease 1.5s;
+}
+
+.breakBar{
+    height: 5px;
+    margin-bottom: 5px;
+    background-color: black;
+}
+
+@keyframes fadeIn{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@keyframes fadeIn7{
+    0% {opacity:0;}
+    100% {opacity:.7;}
+}
+
+@-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn7 {
+    0% {opacity:0;}
+    100% {opacity:.7;}
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+    
+@-webkit-keyframes fadeIn7 {
+    0% {opacity:0;}
+    100% {opacity:.7;}
+}
+
+@-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+    
+@-o-keyframes fadeIn7 {
+    0% {opacity:0;}
+    100% {opacity:.7;}
+}
+
+@-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+    
+@-ms-keyframes fadeIn7 {
+    0% {opacity:0;}
+    100% {opacity:.7;}
+}   

@@ -1,4 +1,5 @@
 import GameCard from './GameCard';
+import Modal from '../../components/Modal';
 import constellations from '../constellations';
 import React, {useEffect, useState} from 'react';
 
@@ -58,6 +59,7 @@ function ConstellationMemoryGame(){
             <h1>Score: {chosenArrayState.length} || High Score: {highscoreState}</h1>
             {chosenArrayState.length===constellations.length ? <h2>Congratulations! You've made the top score possible!</h2> : null}
             {chosenArrayState.length===constellations.length ? <input type="button" onClick={()=>chooseCard(constellations[0])} value="Replay?"/> : null}
+            <Modal buttonText="Need Instructions?" title="Instructions:" content="Memory Game Instructions WRITE THESE!"/>
             {gameArrayState.map(constellation => (
                 <GameCard
                     onClick={chooseCard}
