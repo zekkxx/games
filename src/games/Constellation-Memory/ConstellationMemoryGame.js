@@ -1,18 +1,19 @@
 import GameCard from './GameCard';
 import Modal from '../../components/Modal';
-import constellations from '../constellations';
+import constellations from '../../util/constellations';
+import { constellationMemory as instructions } from '../../util/documentation/instructions';
 import React, {useEffect, useState} from 'react';
 
 function ConstellationMemoryGame(){
     const [gameArrayState, setGameArrayState] = useState([]);
-    const [chosenArrayState, setChosenArrayState] = useState([])
+    const [chosenArrayState, setChosenArrayState] = useState([]);
     const [highscoreState, setHighscoreState] = useState(0);
-    
+
     const updateHighscore = () => {
         if (localStorage.getItem('highscore') > highscoreState){
             setHighscoreState(localStorage.getItem('highscore'));
         } else if (chosenArrayState.length > highscoreState){
-            setHighscoreState(chosenArrayState.length)
+            setHighscoreState(chosenArrayState.length);
             localStorage.setItem('highscore', chosenArrayState.length);
         }
     }
@@ -56,10 +57,11 @@ function ConstellationMemoryGame(){
 
     return(
         <>
-            <h1>Score: {chosenArrayState.length} || High Score: {highscoreState}</h1>
+            <h1>Constellation Memory</h1>
+            <h2>Score: {chosenArrayState.length} || High Score: {highscoreState}</h2>
+            <div><Modal buttonText="Need Instructions?" title="Instructions:" content={instructions}/></div>
             {chosenArrayState.length===constellations.length ? <h2>Congratulations! You've made the top score possible!</h2> : null}
             {chosenArrayState.length===constellations.length ? <input type="button" onClick={()=>chooseCard(constellations[0])} value="Replay?"/> : null}
-            <Modal buttonText="Need Instructions?" title="Instructions:" content="Memory Game Instructions WRITE THESE!"/>
             {gameArrayState.map(constellation => (
                 <GameCard
                     onClick={chooseCard}

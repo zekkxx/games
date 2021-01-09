@@ -5,7 +5,7 @@ function Modal(props){
     const [displayState, setDisplayState] = useState(false);
     return(
         <>
-            <input type="button" value={props.buttonText ? props.buttonText : "Open Modal"} onClick={() => setDisplayState(true)}/><br/>
+            <input type="button" value={props.buttonText ? props.buttonText : "Open Modal"} onClick={() => setDisplayState(true)}/>
             {displayState ?
             (<>
                 <div className="cover" onClick={() => setDisplayState(false)}></div>
