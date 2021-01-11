@@ -1,8 +1,8 @@
-import GameCard from './GameCard';
-import Modal from '../../components/Modal';
-import constellations from '../../util/constellations';
 import { constellationMemory as instructions } from '../../util/documentation/instructions';
+import constellations from '../../util/constellations';
 import React, {useEffect, useState} from 'react';
+import Modal from '../../components/Modal';
+import GameCard from './GameCard';
 
 function ConstellationMemoryGame(){
     const [gameArrayState, setGameArrayState] = useState([]);
@@ -45,6 +45,7 @@ function ConstellationMemoryGame(){
     useEffect(() => {
         updateHighscore();
         shuffleCards();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chosenArrayState]);
 
     const chooseCard = name => {
