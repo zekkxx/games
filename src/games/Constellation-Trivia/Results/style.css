@@ -1,0 +1,40 @@
+.imgContainer{
+    width: auto;
+    position: relative;
+    text-align: center;
+    background-clip: white;
+    margin: 10px 5px;
+    background-color: black;
+}
+.resultsImg{
+    max-width: 100%;
+}
+.imgText{
+    position: absolute;
+    width: 100%;
+    color: black;
+    transform: translate(-100%, 0%);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-weight: bold;
+}
+.answer{
+    background-color: gold;
+    top: 0;
+}
+.response{
+    bottom: 0;
+}
+.correct{
+    background-color: green;
+}
+.wrong{
+    background-color: red;
+}
+#resultsDiv{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 20px;;
+}

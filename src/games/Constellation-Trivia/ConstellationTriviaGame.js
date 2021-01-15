@@ -1,7 +1,9 @@
 import { constellationTrivia as instructions } from '../../util/documentation/instructions';
 import constellations from '../../util/constellations';
+import Results from './Results';
 import Modal from '../../components/Modal';
 import React, { useEffect, useState, useRef } from 'react';
+import './style.css';
 
 function ConstellationTriviaGame(){
     const [constellationState, setConstellationState] = useState("galaxy");
@@ -9,15 +11,13 @@ function ConstellationTriviaGame(){
     const [endGameState, setEndGameState] = useState(false);
     const [timerState, setTimerState] = useState(0);
 
-    const answerRef = useRef([]);
-    const guessRef = useRef([]);
+    const quizRef = useRef([]);
     const quizLengthRef = useRef(0);
 
     const startGame = (numOfQuestions) => {
         setEndGameState(false);
         // setTimerState(10);
-        answerRef.current=[];
-        guessRef.current=[];
+        quizRef.current=[];
         quizLengthRef.current=numOfQuestions;
         getNewConstellation();
     }
@@ -36,26 +36,24 @@ function ConstellationTriviaGame(){
             {name:"Replay?", onClick:()=>startGame(quizLengthRef.current)},
             {name:"Choose a different version?", onClick:createGameOptionButtons}
         ]);
-        console.log("Final Answers:", answerRef.current);
-        console.log("Final Guesses:", guessRef.current);
+        console.log("Quiz Results:", quizRef.current);
     }
 
     const getNewConstellation = () => {
-        if(answerRef.current.length>=quizLengthRef.current){
+        if(quizRef.current.length>=quizLengthRef.current){
             return endGame();
         }
         const newConstellation = constellations[Math.floor(Math.random()*constellations.length)];
-        if(answerRef.current.includes(newConstellation) || newConstellation===constellationState){
+        if(quizRef.current.map(item=>item.answer).includes(newConstellation) || newConstellation===constellationState){
             getNewConstellation();
         } else {
-            answerRef.current.push(newConstellation);
             setConstellationState(newConstellation);
-            console.log(answerRef.current);
+            console.log(newConstellation);
         }
     }
 
     const makeGuess = (name) => {
-        guessRef.current.push(name);
+        quizRef.current.push({guess:name, answer:constellationState});;
         getNewConstellation();
     }
 
@@ -91,14 +89,18 @@ function ConstellationTriviaGame(){
 
     return (
         <>
-            <h1>Constellation Trivia</h1>
-            <div><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
-            {endGameState ? <p>Endgame</p>
-                : <img src={`/images/constellations/${constellationState}.jpg`} alt="Constellation"/>}
-            <div>{timerState ? <h3>Time Left: {timerState} Seconds</h3> : null}
-            {answerButtonsState ? answerButtonsState.map(button=>{
-                return <input type="button" value={button.name.toUpperCase()} onClick={button.onClick} key={button.name}/>
-            }) : null}</div>
+            {endGameState ? <Results quiz={quizRef.current} />
+                : (<>
+                    <h1>Constellation Trivia</h1>
+                    <div><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
+                    <img src={`/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
+                </>)}
+            <div className="bPadding">
+                {timerState ? <h3>Time Left: {timerState} Seconds</h3> : null}
+                {answerButtonsState ? answerButtonsState.map(button=>{
+                    return <input type="button" value={button.name.toUpperCase()} onClick={button.onClick} key={button.name}/>
+                }) : null}
+            </div>
         </>
     );
 }
