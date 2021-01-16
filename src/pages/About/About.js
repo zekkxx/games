@@ -12,6 +12,9 @@ function About(){
             <p>
                 All of these games, images, and the source code for this page itself are Open Source, and available under the Unliscense. It's pretentious to think that anything I did in here is particularly noteworthy, or unique. This content was all made as parts of my journey learning JavaScript and React - and if it can help someone else to learn by dissecting or using this code themselves, I'd love for that to happen.
             </p>
+            <p>
+                We will be coming out with additional games soon!
+            </p>
         </main>
     )
 }
