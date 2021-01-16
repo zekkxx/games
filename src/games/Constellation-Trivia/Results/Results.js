@@ -8,7 +8,7 @@ function Results(props){
             <div id="resultsDiv">
                 {props.quiz.map(item=>(
                     <div className="imgContainer" key={item.answer}>
-                        <img src={`/images/constellations/${item.answer}.jpg`}
+                        <img src={`/games/images/constellations/${item.answer}.jpg`}
                             className="resultsImg"
                             alt={`Constellation ${item.answer}`}
                         />

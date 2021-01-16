@@ -94,7 +94,7 @@ function ConstellationTriviaGame(){
                 : (<>
                     <h1>Constellation Trivia</h1>
                     <div><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
-                    <img src={`/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
+                    <img src={`/games/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
                 </>)}
             <div className="bPadding">
                 {/* {timerState ? <h3>Time Left: {timerState} Seconds</h3> : null} */}
