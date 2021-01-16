@@ -4,7 +4,7 @@
     left:0;
     height:100%;
     width:100%;
-    background-color: slategrey;
+    background-color: #000000;
     opacity: .7;
     animation: fadeIn7 ease 1s;
     -webkit-animation: fadeIn7 ease 1s;
@@ -27,6 +27,7 @@
     -moz-animation: fadeIn ease 1.5s;
     -o-animation: fadeIn ease 1.5s;
     -ms-animation: fadeIn ease 1.5s;
+    color: black;
 }
 
 .breakBar{

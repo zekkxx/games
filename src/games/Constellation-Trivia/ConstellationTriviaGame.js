@@ -9,14 +9,13 @@ function ConstellationTriviaGame(){
     const [constellationState, setConstellationState] = useState("galaxy");
     const [answerButtonsState, setAnswerButtonsState] = useState([]);
     const [endGameState, setEndGameState] = useState(false);
-    const [timerState, setTimerState] = useState(0);
+    // const [timerState, setTimerState] = useState(0);
 
     const quizRef = useRef([]);
     const quizLengthRef = useRef(0);
 
     const startGame = (numOfQuestions) => {
         setEndGameState(false);
-        // setTimerState(10);
         quizRef.current=[];
         quizLengthRef.current=numOfQuestions;
         getNewConstellation();
@@ -81,10 +80,12 @@ function ConstellationTriviaGame(){
             return {name:constellation, onClick:()=>makeGuess(constellation)}
         });
         setAnswerButtonsState(answerButtons);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [constellationState])
 
     useEffect(()=>{
         createGameOptionButtons();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -96,7 +97,7 @@ function ConstellationTriviaGame(){
                     <img src={`/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
                 </>)}
             <div className="bPadding">
-                {timerState ? <h3>Time Left: {timerState} Seconds</h3> : null}
+                {/* {timerState ? <h3>Time Left: {timerState} Seconds</h3> : null} */}
                 {answerButtonsState ? answerButtonsState.map(button=>{
                     return <input type="button" value={button.name.toUpperCase()} onClick={button.onClick} key={button.name}/>
                 }) : null}
