@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import './style.css'
+
+import React, { useState } from 'react';
 
 function Modal(props){
     const [displayState, setDisplayState] = useState(false);

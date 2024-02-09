@@ -1,13 +1,15 @@
-import { constellationMemory as instructions } from '../../util/documentation/instructions';
-import constellations from '../../util/constellations';
 import React, {useEffect, useState} from 'react';
-import Modal from '../../components/Modal';
+
 import GameCard from './GameCard';
+import Modal from '../../components/Modal';
+import constellations from '../../util/constellations';
+import { constellationMemory as instructions } from '../../util/documentation/instructions';
 
 function ConstellationMemoryGame(){
     const [gameArrayState, setGameArrayState] = useState([]);
     const [chosenArrayState, setChosenArrayState] = useState([]);
     const [highscoreState, setHighscoreState] = useState(0);
+    const cardsDisplayed = 12;
 
     const updateHighscore = () => {
         if (localStorage.getItem('highscore') > highscoreState){
@@ -26,7 +28,7 @@ function ConstellationMemoryGame(){
         // let cheatArray=[];
         let newArray=[];
         let newEntryAdded=false;
-        while(newArray.length < 12){
+        while(newArray.length < cardsDisplayed){
             let constellation = constellations[Math.floor(Math.random()*constellations.length)];
             if (newArray.includes(constellation)){
                 //do nothing
@@ -34,7 +36,7 @@ function ConstellationMemoryGame(){
                 newEntryAdded=true;
                 newArray.push(constellation);
                 // cheatArray.push(newArray.length);
-            } else if (newArray.length < 11 || newEntryAdded){
+            } else if (newArray.length < cardsDisplayed - 1 || newEntryAdded){
                 newArray.push(constellation);
             }
         }
