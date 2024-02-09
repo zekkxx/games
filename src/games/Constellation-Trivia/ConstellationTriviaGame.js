@@ -1,15 +1,18 @@
-import { constellationTrivia as instructions } from '../../util/documentation/instructions';
-import constellations from '../../util/constellations';
-import Results from './Results';
-import Modal from '../../components/Modal';
-import React, { useEffect, useState, useRef } from 'react';
 import './style.css';
+
+import React, { useEffect, useRef, useState } from 'react';
+
+import Modal from '../../components/Modal';
+import Results from './Results';
+import Timer from '../../components/Timer/Timer';
+import constellations from '../../util/constellations';
+import { constellationTrivia as instructions } from '../../util/documentation/instructions';
 
 function ConstellationTriviaGame(){
     const [constellationState, setConstellationState] = useState("galaxy");
     const [answerButtonsState, setAnswerButtonsState] = useState([]);
     const [endGameState, setEndGameState] = useState(false);
-    // const [timerState, setTimerState] = useState(0);
+    const gameTimer = Timer();
 
     const quizRef = useRef([]);
     const quizLengthRef = useRef(0);
@@ -47,12 +50,14 @@ function ConstellationTriviaGame(){
             getNewConstellation();
         } else {
             setConstellationState(newConstellation);
+            gameTimer.startTimer(10);
             console.log(newConstellation);
         }
     }
 
     const makeGuess = (name) => {
-        quizRef.current.push({guess:name, answer:constellationState});;
+        gameTimer.stopTimer();
+        quizRef.current.push({guess:name, answer:constellationState});
         getNewConstellation();
     }
 
@@ -74,6 +79,17 @@ function ConstellationTriviaGame(){
         }
         return answerArray;
     }
+
+    useEffect(() => {
+        if (gameTimer.timeLeft <= 0 && !endGameState && constellationState !== "galaxy") {
+            quizRef.current.push({guess: "", answer: constellationState})
+            if (quizLengthRef.current === quizRef.current.length) {
+                gameTimer.clearTimer();
+                endGame();
+            }
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [constellationState, endGameState, gameTimer, gameTimer.timeLeft]);
 
     useEffect(()=>{
         const answerButtons = createAnswers().map(constellation=>{
@@ -97,10 +113,14 @@ function ConstellationTriviaGame(){
                     <img src={`/games/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
                 </>)}
             <div className="bPadding">
-                {/* {timerState ? <h3>Time Left: {timerState} Seconds</h3> : null} */}
-                {answerButtonsState ? answerButtonsState.map(button=>{
-                    return <input type="button" value={button.name.toUpperCase()} onClick={button.onClick} key={button.name}/>
-                }) : null}
+                {answerButtonsState && (
+                    <>
+                        {!!gameTimer.timeLeft && <h3>Time Left: {gameTimer.timeLeft} Seconds</h3>}
+                        {answerButtonsState.map(button=>{
+                            return <input type="button" value={button.name.toUpperCase()} onClick={button.onClick} key={button.name}/>
+                        })}
+                    </>
+                )}
             </div>
         </>
     );
