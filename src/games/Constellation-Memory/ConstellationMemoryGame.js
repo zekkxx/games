@@ -12,11 +12,11 @@ function ConstellationMemoryGame(){
     const cardsDisplayed = 12;
 
     const updateHighscore = () => {
-        if (localStorage.getItem('highscore') > highscoreState){
-            setHighscoreState(localStorage.getItem('highscore'));
+        if (localStorage.getItem('memoryhighscore') > highscoreState){
+            setHighscoreState(localStorage.getItem('memoryhighscore'));
         } else if (chosenArrayState.length > highscoreState){
             setHighscoreState(chosenArrayState.length);
-            localStorage.setItem('highscore', chosenArrayState.length);
+            localStorage.setItem('memoryhighscore', chosenArrayState.length);
         }
     }
 
