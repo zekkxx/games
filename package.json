@@ -1,6 +1,6 @@
 {
   "name": "games",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "http://zekkxx.github.io/games",
   "private": true,
   "dependencies": {
@@ -40,6 +40,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.1.0"
+    "gh-pages": "^6.1.1"
   }
 }
