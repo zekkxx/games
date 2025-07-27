@@ -1,3 +1,3 @@
-import Library from "./Library.js";
+import Library from "./Library";
 
 export default Library;

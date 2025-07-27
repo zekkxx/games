@@ -15,38 +15,8 @@ function ConstellationWordGuessGame(){
     const [verificationMessage, setVerificationMessage] = useState("");
     const displayLetters = "abcdefghijklmnopqrstuvwxyz"
 
-    const checkHighScore = useCallback(() => {
-        if (localStorage.getItem('hangmanhighscore') > highscore){
-            setHighscore(localStorage.getItem('hangmanhighscore'));
-        } else if (victoryCount > highscore){
-            setHighscore(victoryCount);
-            localStorage.setItem('hangmanhighscore', victoryCount);
-        }
-    }, [highscore, victoryCount])
-
-    
-    const getNewConstellation = useCallback(() => {
-        const newConstellation = constellations[Math.floor(Math.random()*constellations.length)];
-        if (newConstellation === previousConstellation) {
-            return getNewConstellation();
-        }
-        const hint = newConstellation.split("").map((letter) => {
-            if (letter === '-') {
-                return '- '
-            }
-            return '_ ';
-        }).join("");
-        setPlayerHint(hint);
-        setCurrentConstellation(newConstellation);
-    }, [previousConstellation])
-    
-    const startGame = useCallback(() => {
-        setGuessedLetters("");
-        setGuessesLeft(11);
-        getNewConstellation();
-    }, [getNewConstellation]);
-
     const verifyInput = useCallback((input) => {
+        console.log(input);
         if(!/[a-z]/.test(input) || input.length>1){ //Test input against regular expression
             return setVerificationMessage("This is not an approved letter. Try again.");
         }
@@ -76,8 +46,48 @@ function ConstellationWordGuessGame(){
         setPlayerHint(newWordOutput.toUpperCase()); //change the output to uppercase and save it back to playerHint
     }, [currentConstellation, guessedLetters, guessesLeft, playerHint]);
 
+    // const checkKey = ({ code }) => {
+    //     if(code.startsWith("Key")){
+    //         verifyInput(code[3].toLowerCase())
+    //     }
+    // };
+
+    const checkHighScore = useCallback(() => {
+        if (localStorage.getItem('hangmanhighscore') > highscore){
+            setHighscore(localStorage.getItem('hangmanhighscore'));
+        } else if (victoryCount > highscore){
+            setHighscore(victoryCount);
+            localStorage.setItem('hangmanhighscore', victoryCount);
+        }
+    }, [highscore, victoryCount])
+
+    
+    const getNewConstellation = useCallback(() => {
+        const newConstellation = constellations[Math.floor(Math.random()*constellations.length)];
+        if (newConstellation === previousConstellation) {
+            return getNewConstellation();
+        }
+        const hint = newConstellation.split("").map((letter) => {
+            if (letter === '-') {
+                return '- '
+            }
+            return '_ ';
+        }).join("");
+        setPlayerHint(hint);
+        setCurrentConstellation(newConstellation);
+    }, [previousConstellation])
+    
+    const startGame = useCallback(() => {
+        setGuessedLetters("");
+        setGuessesLeft(11);
+        getNewConstellation();
+        // window.removeEventListener("keyup", checkKey)
+        // window.addEventListener("keyup", checkKey);
+    }, [getNewConstellation]);
+
     const startUp = useCallback(() => {
         window.removeEventListener("keyup", startUp); //remove input element
+        // window.removeEventListener("keyup", checkKey);
         startGame();
     }, [startGame]);
     
@@ -118,7 +128,7 @@ function ConstellationWordGuessGame(){
                 <h3>Current Streak: {victoryCount}</h3>
                 <h5>Highest Streak:{highscore}</h5>
             </header>
-            <img src={`/games/images/constellations/${previousConstellation ? previousConstellation : "galaxy"}.jpg`} id="themeRewardSpan" alt="The last word's corresponding constallation" />
+            <img src={`/images/constellations/${previousConstellation ? previousConstellation : "galaxy"}.jpg`} id="themeRewardSpan" alt="The last word's corresponding constallation" />
             <div>
                 <span id="wordSpan" onClick={startUp}>{currentConstellation ? "" : "Press Any Key, or Click Here to Begin"}</span>
                 <span id="guessFeedbackSpan">{playerHint}</span>
