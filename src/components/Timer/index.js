@@ -1,3 +1,3 @@
-import Timer from "./Test.js";
+import Timer from "./Test";
 
 export default Timer;

@@ -1,5 +1,5 @@
 img{
-    height: 225px;
-    width: 225px;
-    margin: 15px;
+    height: 200px !important;
+    width: 200px !important;
+    margin: 15px !important;
 }

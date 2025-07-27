@@ -1,3 +1,3 @@
-import ConstellationTriviaGame from './ConstellationTriviaGame.js';
+import ConstellationTriviaGame from './ConstellationTriviaGame';
 
 export default ConstellationTriviaGame;

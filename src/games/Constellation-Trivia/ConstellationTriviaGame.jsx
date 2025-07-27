@@ -34,6 +34,7 @@ function ConstellationTriviaGame(){
 
     const endGame = () => {
         setEndGameState(true);
+        gameTimer.clearTimer();
         setAnswerButtonsState([
             {name:"Replay?", onClick:()=>startGame(quizLengthRef.current)},
             {name:"Choose a different version?", onClick:createGameOptionButtons}
@@ -85,8 +86,9 @@ function ConstellationTriviaGame(){
             quizRef.current.push({guess: "", answer: constellationState})
             if (quizLengthRef.current === quizRef.current.length) {
                 gameTimer.clearTimer();
-                endGame();
+                return endGame();
             }
+            getNewConstellation();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [constellationState, endGameState, gameTimer, gameTimer.timeLeft]);
@@ -110,7 +112,7 @@ function ConstellationTriviaGame(){
                 : (<>
                     <h1>Constellation Trivia</h1>
                     <div><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
-                    <img src={`/games/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
+                    <img src={`/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
                 </>)}
             <div className="bPadding">
                 {answerButtonsState && (
