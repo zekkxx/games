@@ -16,7 +16,6 @@ function ConstellationWordGuessGame(){
     const displayLetters = "abcdefghijklmnopqrstuvwxyz"
 
     const verifyInput = useCallback((input) => {
-        console.log(input);
         if(!/[a-z]/.test(input) || input.length>1){ //Test input against regular expression
             return setVerificationMessage("This is not an approved letter. Try again.");
         }
@@ -45,12 +44,6 @@ function ConstellationWordGuessGame(){
         }
         setPlayerHint(newWordOutput.toUpperCase()); //change the output to uppercase and save it back to playerHint
     }, [currentConstellation, guessedLetters, guessesLeft, playerHint]);
-
-    // const checkKey = ({ code }) => {
-    //     if(code.startsWith("Key")){
-    //         verifyInput(code[3].toLowerCase())
-    //     }
-    // };
 
     const checkHighScore = useCallback(() => {
         if (localStorage.getItem('hangmanhighscore') > highscore){
@@ -81,22 +74,19 @@ function ConstellationWordGuessGame(){
         setGuessedLetters("");
         setGuessesLeft(11);
         getNewConstellation();
-        // window.removeEventListener("keyup", checkKey)
-        // window.addEventListener("keyup", checkKey);
     }, [getNewConstellation]);
 
     const startUp = useCallback(() => {
         window.removeEventListener("keyup", startUp); //remove input element
-        // window.removeEventListener("keyup", checkKey);
         startGame();
-    }, [startGame]);
+    }, []);
     
     useEffect(() => {
         if (!currentConstellation) {
             return;
         }
         if(guessesLeft<=0){ //If 0 or fewer guesses left, LOSE
-            setPreviousConstellation("Galaxy");
+            setPreviousConstellation("galaxy");
             setVictoryCount(0);
             startGame();
         }
@@ -108,19 +98,27 @@ function ConstellationWordGuessGame(){
     }, [currentConstellation, guessesLeft, playerHint, startGame, victoryCount]);
 
     useEffect(() => {
-        if(highscore) {
-            return;
-        }
-        window.removeEventListener("keyup", startUp);
-        window.addEventListener("keyup", startUp); //Start Screen
-        checkHighScore();
-    }, [checkHighScore, highscore, startUp]);
-
-    useEffect(() => {
-        if (victoryCount > highscore) {
+        if (!highscore || victoryCount > highscore) {
             checkHighScore();
         }
-    }, [checkHighScore, highscore, victoryCount])
+    }, [highscore, victoryCount, checkHighScore])
+
+    const handleKeyPress = useCallback(({ code }) => {
+        if(currentConstellation) {
+            if(code.startsWith("Key")){
+                verifyInput(code[3].toLowerCase())
+            }
+        } else {
+            startUp();
+        }
+    }, [verifyInput, startUp]);
+
+    useEffect(() => {
+        document.addEventListener('keyup', handleKeyPress);
+        return () => {
+            document.removeEventListener('keyup', handleKeyPress);
+        }
+    }, [handleKeyPress])
 
     return (
         <>
@@ -134,8 +132,8 @@ function ConstellationWordGuessGame(){
                 <span id="guessFeedbackSpan">{playerHint}</span>
             </div>
             <div>
-                <span id="guessesLeftSpan">{guessesLeft ? `Guesses Left: ${guessesLeft}` : ""}</span>
-                <span id="verificationMessage">{verificationMessage ? verificationMessage: ""}</span>
+                <span id="guessesLeftSpan">{guessesLeft ? `Guesses Left: ${guessesLeft}` : ""}</span><br/>
+                <span id="verificationMessage">{verificationMessage ? verificationMessage: ""}</span>{verificationMessage && <br/>}
                 <span id="guessedLettersSpan">{guessedLetters}</span>
             </div>
             <div>

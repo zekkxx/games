@@ -31,7 +31,7 @@ function ConstellationMemoryGame(){
         while(newArray.length < cardsDisplayed){
             let constellation = constellations[Math.floor(Math.random()*constellations.length)];
             if (newArray.includes(constellation)){
-                //do nothing
+                // do nothing
             } else if (chosenArrayState.includes(constellation) === false){
                 newEntryAdded=true;
                 newArray.push(constellation);
