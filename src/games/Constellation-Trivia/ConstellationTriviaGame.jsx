@@ -39,7 +39,6 @@ function ConstellationTriviaGame(){
             {name:"Replay?", onClick:()=>startGame(quizLengthRef.current)},
             {name:"Choose a different version?", onClick:createGameOptionButtons}
         ]);
-        console.log("Quiz Results:", quizRef.current);
     }
 
     const getNewConstellation = () => {
@@ -52,7 +51,6 @@ function ConstellationTriviaGame(){
         } else {
             setConstellationState(newConstellation);
             gameTimer.startTimer(10);
-            console.log(newConstellation);
         }
     }
 
@@ -69,7 +67,7 @@ function ConstellationTriviaGame(){
             let constellation = constellations[Math.floor(Math.random()*constellations.length)];
             let name="";
             if(answerArray.length===answerIndex){
-                // console.log(constellationState,"is the answer:","at position",answerIndex);
+                // console.log(constellationState,"is the answer:","at position",answerIndex); // Cheat
                 name=constellationState;
             } else if(answerArray.includes(constellation)===false && constellation!==constellationState){
                 name=constellation;
