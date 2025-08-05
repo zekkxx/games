@@ -5,7 +5,7 @@ import React from "react";
 function GameCard(props) {
     return(
         <img
-            src={`/images/constellations/${props.name}.jpg`}
+            src={`${import.meta.env.BASE_URL}/images/constellations/${props.name}.jpg`}
             alt={props.name+" constellation"}
             onClick={() => props.onClick(props.name)}
         />

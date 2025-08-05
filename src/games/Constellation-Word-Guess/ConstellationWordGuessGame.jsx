@@ -126,7 +126,7 @@ function ConstellationWordGuessGame(){
                 <h3>Current Streak: {victoryCount}</h3>
                 <h5>Highest Streak:{highscore}</h5>
             </header>
-            <img src={`/images/constellations/${previousConstellation ? previousConstellation : "galaxy"}.jpg`} id="themeRewardSpan" alt="The last word's corresponding constallation" />
+            <img src={`${import.meta.env.BASE_URL}/images/constellations/${previousConstellation ? previousConstellation : "galaxy"}.jpg`} id="themeRewardSpan" alt="The last word's corresponding constallation" />
             <div>
                 <span id="wordSpan" onClick={startUp}>{currentConstellation ? "" : "Press Any Key, or Click Here to Begin"}</span>
                 <span id="guessFeedbackSpan">{playerHint}</span>
