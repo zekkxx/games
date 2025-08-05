@@ -110,7 +110,7 @@ function ConstellationTriviaGame(){
                 : (<>
                     <h1>Constellation Trivia</h1>
                     <div><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
-                    <img src={`/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
+                    <img src={`${import.meta.env.BASE_URL}/images/constellations/${constellationState}.jpg`} alt="Constellation"/>
                 </>)}
             <div className="bPadding">
                 {answerButtonsState && (
