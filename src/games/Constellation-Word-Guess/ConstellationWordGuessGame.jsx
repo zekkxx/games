@@ -2,7 +2,9 @@ import './style.css';
 
 import React, {useCallback, useEffect, useState} from 'react';
 
+import Modal from '../../components/Modal';
 import constellations from '../../util/constellations';
+import { constellationWordGuess as instructions } from '../../util/documentation/instructions';
 
 function ConstellationWordGuessGame(){
     const [victoryCount, setVictoryCount] = useState(0);
@@ -122,10 +124,12 @@ function ConstellationWordGuessGame(){
 
     return (
         <>
+            <h1>Constellation Word Guess</h1>
             <header>
                 <h3>Current Streak: {victoryCount}</h3>
                 <h5>Highest Streak:{highscore}</h5>
             </header>
+            <div class="pt-1pct pb-0"><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
             <img src={`${import.meta.env.BASE_URL}/images/constellations/${previousConstellation ? previousConstellation : "galaxy"}.jpg`} id="themeRewardSpan" alt="The last word's corresponding constallation" />
             <div>
                 <span id="wordSpan" onClick={startUp}>{currentConstellation ? "" : "Press Any Key, or Click Here to Begin"}</span>
