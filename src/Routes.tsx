@@ -2,14 +2,14 @@ import './App.css';
 
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import About from "./pages/About";
-import ConstellationMemoryGame from './games/Constellation-Memory';
-import ConstellationTriviaGame from './games/Constellation-Trivia';
-import ConstellationWordGuessGame from './games/Constellation-Word-Guess';
-import Home from "./pages/Home";
-import Library from "./pages/Library";
-import Navbar from "./components/Navbar";
-import Test from "./pages/Test";
+import About from "./pages/About/About.js";
+import ConstellationMemoryGame from './games/Constellation-Memory/ConstellationMemoryGame.js';
+import ConstellationTriviaGame from './games/Constellation-Trivia/ConstellationTriviaGame.js';
+import ConstellationWordGuessGame from './games/Constellation-Word-Guess/ConstellationWordGuessGame.js';
+import Home from "./pages/Home/Home.js";
+import Library from "./pages/Library/Library.js";
+import Navbar from "./components/Navbar/Navbar.js";
+import Test from "./pages/Test/Test.js";
 
 const AppLayout = () => {
   return (

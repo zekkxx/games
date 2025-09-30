@@ -1,8 +1,11 @@
 import "./styles.css";
 
-import React from "react";
+interface gameCardProps {
+    name: string;
+    onClick: (name: string) => void;
+}
 
-function GameCard(props) {
+function GameCard(props: gameCardProps) {
     return(
         <img
             src={`${import.meta.env.BASE_URL}/images/constellations/${props.name}.jpg`}

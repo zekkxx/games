@@ -1,23 +1,33 @@
 import './style.css';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import Modal from '../../components/Modal';
-import Results from './Results';
-import Timer from '../../components/Timer/Timer';
-import constellations from '../../util/constellations';
-import { constellationTrivia as instructions } from '../../util/documentation/instructions';
+import Modal from '../../components/Modal/Modal.js';
+import Results from './Results/Results.js';
+import Timer from '../../components/Timer.js';
+import constellations from '../../util/constellations.js';
+import { constellationTrivia as instructions } from '../../util/documentation/instructions.js';
+
+export interface question {
+    answer: string;
+    guess: string;
+}
+
+interface answer {
+    name: string;
+    onClick: () => void;
+}
 
 function ConstellationTriviaGame(){
-    const [constellationState, setConstellationState] = useState("galaxy");
-    const [answerButtonsState, setAnswerButtonsState] = useState([]);
-    const [endGameState, setEndGameState] = useState(false);
+    const [constellationState, setConstellationState] = useState<string>("galaxy");
+    const [answerButtonsState, setAnswerButtonsState] = useState<answer[]>([]);
+    const [endGameState, setEndGameState] = useState<boolean>(false);
     const gameTimer = Timer();
 
-    const quizRef = useRef([]);
+    const quizRef = useRef<question[]>([]);
     const quizLengthRef = useRef(0);
 
-    const startGame = (numOfQuestions) => {
+    const startGame = (numOfQuestions: number) => {
         setEndGameState(false);
         quizRef.current=[];
         quizLengthRef.current=numOfQuestions;
@@ -46,7 +56,7 @@ function ConstellationTriviaGame(){
             return endGame();
         }
         const newConstellation = constellations[Math.floor(Math.random()*constellations.length)];
-        if(quizRef.current.map(item=>item.answer).includes(newConstellation) || newConstellation===constellationState){
+        if(newConstellation === undefined || quizRef.current.map(item=>item.answer).includes(newConstellation) || newConstellation===constellationState){
             getNewConstellation();
         } else {
             setConstellationState(newConstellation);
@@ -54,7 +64,7 @@ function ConstellationTriviaGame(){
         }
     }
 
-    const makeGuess = (name) => {
+    const makeGuess = (name: string) => {
         gameTimer.stopTimer();
         quizRef.current.push({guess:name, answer:constellationState});
         getNewConstellation();
@@ -62,17 +72,19 @@ function ConstellationTriviaGame(){
 
     const createAnswers = () => {
         let answerIndex = Math.floor(Math.random()*4);
-        let answerArray = [];
+        let answerArray: string[] = [];
         while(answerArray.length<4){
             let constellation = constellations[Math.floor(Math.random()*constellations.length)];
             let name="";
-            if(answerArray.length===answerIndex){
+            if (!constellation) {
+                console.error("Out of bounds answer was given");
+            } else if(answerArray.length===answerIndex){
                 // console.log(constellationState,"is the answer:","at position",answerIndex); // Cheat
                 name=constellationState;
             } else if(answerArray.includes(constellation)===false && constellation!==constellationState){
                 name=constellation;
             }
-            if(name){
+            if(constellation && name){
                 answerArray.push(name);
             }
         }

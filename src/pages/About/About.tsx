@@ -1,7 +1,5 @@
 import "./style.css";
 
-import React from 'react';
-
 function About(){
     return(
         <main>

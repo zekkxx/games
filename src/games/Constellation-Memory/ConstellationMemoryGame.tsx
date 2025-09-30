@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
-import GameCard from './GameCard';
-import Modal from '../../components/Modal';
-import constellations from '../../util/constellations';
-import { constellationMemory as instructions } from '../../util/documentation/instructions';
+import GameCard from './GameCard/GameCard.js';
+import Modal from '../../components/Modal/Modal.js';
+import constellations from '../../util/constellations.js';
+import { constellationMemory as instructions } from '../../util/documentation/instructions.js';
 
 function ConstellationMemoryGame(){
-    const [gameArrayState, setGameArrayState] = useState([]);
-    const [chosenArrayState, setChosenArrayState] = useState([]);
-    const [highscoreState, setHighscoreState] = useState(0);
+    const [gameArrayState, setGameArrayState] = useState<string[]>([]);
+    const [chosenArrayState, setChosenArrayState] = useState<string[]>([]);
+    const [highscoreState, setHighscoreState] = useState<number>(0);
     const cardsDisplayed = 12;
 
     const updateHighscore = () => {
-        if (localStorage.getItem('memoryhighscore') > highscoreState){
-            setHighscoreState(localStorage.getItem('memoryhighscore'));
+        const localStorageMemHighScore = localStorage.getItem('memoryhighscore');
+        if (localStorageMemHighScore && parseInt(localStorageMemHighScore) > highscoreState){
+            setHighscoreState(parseInt(localStorageMemHighScore));
         } else if (chosenArrayState.length > highscoreState){
             setHighscoreState(chosenArrayState.length);
-            localStorage.setItem('memoryhighscore', chosenArrayState.length);
+            localStorage.setItem('memoryhighscore', `${chosenArrayState.length}`);
         }
     }
 
@@ -26,11 +27,11 @@ function ConstellationMemoryGame(){
             return;
         }
         // let cheatArray=[];
-        let newArray=[];
+        let newArray: string[] = [];
         let newEntryAdded=false;
         while(newArray.length < cardsDisplayed){
             let constellation = constellations[Math.floor(Math.random()*constellations.length)];
-            if (newArray.includes(constellation)){
+            if (!constellation || newArray.includes(constellation)){
                 // do nothing
             } else if (chosenArrayState.includes(constellation) === false){
                 newEntryAdded=true;
@@ -47,15 +48,18 @@ function ConstellationMemoryGame(){
     useEffect(() => {
         updateHighscore();
         shuffleCards();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chosenArrayState]);
 
-    const chooseCard = name => {
+    const chooseCard = (name: string) => {
         if(chosenArrayState.includes(name)){
             setChosenArrayState([]);
         } else {
             setChosenArrayState([...chosenArrayState, name]);
         }
+    }
+
+    const resetChosenCards = () => {
+        setChosenArrayState([]);
     }
 
     return(
@@ -64,7 +68,7 @@ function ConstellationMemoryGame(){
             <h2>Score: {chosenArrayState.length} || High Score: {highscoreState}</h2>
             <div><Modal buttonText="Need Instructions?" title="Instructions:" content={instructions}/></div>
             {chosenArrayState.length===constellations.length ? <h2>Congratulations! You've made the top score possible!</h2> : null}
-            {chosenArrayState.length===constellations.length ? <input type="button" onClick={()=>chooseCard(constellations[0])} value="Replay?"/> : null}
+            {chosenArrayState.length===constellations.length ? <input type="button" onClick={resetChosenCards} value="Replay?"/> : null}
             {gameArrayState.map(constellation => (
                 <GameCard
                     onClick={chooseCard}

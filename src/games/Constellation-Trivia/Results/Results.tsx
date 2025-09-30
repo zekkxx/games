@@ -1,8 +1,12 @@
 import './style.css';
 
-import React from 'react';
+import type { question } from "../ConstellationTriviaGame.js"
 
-function Results(props){
+interface resultsProps {
+    quiz: question[];
+}
+
+function Results(props: resultsProps){
     return(
         <>
             <h1>Results: {props.quiz.filter(({answer, guess})=>answer===guess).length}/{props.quiz.length} Correct!</h1>

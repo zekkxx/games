@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 function Timer(){
-    const [timeLeft, setTimeLeft] = useState(0);
-    const intervalRef = useRef();
+    const [timeLeft, setTimeLeft] = useState<number>(0);
+    const intervalRef = useRef(0);
 
-    const startTimer = (time) => {
+    const startTimer = (time: number) => {
         if (time > 0) {
             return setTimeLeft(time);
         }

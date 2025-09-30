@@ -1,10 +1,10 @@
 import './style.css';
 
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
-import Modal from '../../components/Modal';
-import constellations from '../../util/constellations';
-import { constellationWordGuess as instructions } from '../../util/documentation/instructions';
+import Modal from '../../components/Modal/Modal.js';
+import constellations from '../../util/constellations.js';
+import { constellationWordGuess as instructions } from '../../util/documentation/instructions.js';
 
 function ConstellationWordGuessGame(){
     const [victoryCount, setVictoryCount] = useState(0);
@@ -17,7 +17,7 @@ function ConstellationWordGuessGame(){
     const [verificationMessage, setVerificationMessage] = useState("");
     const displayLetters = "abcdefghijklmnopqrstuvwxyz"
 
-    const verifyInput = useCallback((input) => {
+    const verifyInput = useCallback((input: string) => {
         if(!/[a-z]/.test(input) || input.length>1){ //Test input against regular expression
             return setVerificationMessage("This is not an approved letter. Try again.");
         }
@@ -48,18 +48,19 @@ function ConstellationWordGuessGame(){
     }, [currentConstellation, guessedLetters, guessesLeft, playerHint]);
 
     const checkHighScore = useCallback(() => {
-        if (localStorage.getItem('hangmanhighscore') > highscore){
-            setHighscore(localStorage.getItem('hangmanhighscore'));
+        const localStorageHangmanHighScore = localStorage.getItem('hangmanhighscore');
+        if (localStorageHangmanHighScore && parseInt(localStorageHangmanHighScore) > highscore){
+            setHighscore(parseInt(localStorageHangmanHighScore));
         } else if (victoryCount > highscore){
             setHighscore(victoryCount);
-            localStorage.setItem('hangmanhighscore', victoryCount);
+            localStorage.setItem('hangmanhighscore', `${victoryCount}`);
         }
     }, [highscore, victoryCount])
 
     
     const getNewConstellation = useCallback(() => {
         const newConstellation = constellations[Math.floor(Math.random()*constellations.length)];
-        if (newConstellation === previousConstellation) {
+        if (!newConstellation || newConstellation === previousConstellation) {
             return getNewConstellation();
         }
         const hint = newConstellation.split("").map((letter) => {
@@ -105,9 +106,9 @@ function ConstellationWordGuessGame(){
         }
     }, [highscore, victoryCount, checkHighScore])
 
-    const handleKeyPress = useCallback(({ code }) => {
+    const handleKeyPress = useCallback(({ code }: { code: string }) => {
         if(currentConstellation) {
-            if(code.startsWith("Key")){
+            if(code.startsWith("Key") && code[3]){
                 verifyInput(code[3].toLowerCase())
             }
         } else {
@@ -129,7 +130,7 @@ function ConstellationWordGuessGame(){
                 <h3>Current Streak: {victoryCount}</h3>
                 <h5>Highest Streak:{highscore}</h5>
             </header>
-            <div class="pt-1pct pb-0"><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
+            <div className="pt-1pct pb-0"><Modal buttonText="Need Instructions?" title="Instructions" content={instructions}/></div>
             <img src={`${import.meta.env.BASE_URL}/images/constellations/${previousConstellation ? previousConstellation : "galaxy"}.jpg`} id="themeRewardSpan" alt="The last word's corresponding constallation" />
             <div>
                 <span id="wordSpan" onClick={startUp}>{currentConstellation ? "" : "Press Any Key, or Click Here to Begin"}</span>

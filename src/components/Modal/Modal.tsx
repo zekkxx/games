@@ -1,8 +1,14 @@
 import './style.css'
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-function Modal(props){
+interface modalProps {
+    buttonText?: string;
+    title: string;
+    content: string;
+}
+
+function Modal(props: modalProps){
     const [displayState, setDisplayState] = useState(false);
     return(
         <>
