@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-function Timer(){
+function ReactTimer(){
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const intervalRef = useRef(0);
 
@@ -48,4 +48,4 @@ function Timer(){
     return { timeLeft, startTimer, stopTimer, clearTimer }
 }
 
-export default Timer;
+export default ReactTimer;

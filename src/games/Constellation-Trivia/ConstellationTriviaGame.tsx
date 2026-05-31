@@ -3,8 +3,8 @@ import './style.css';
 import { useEffect, useRef, useState } from 'react';
 
 import Modal from '../../components/Modal/Modal.js';
+import ReactTimer from '../../components/ReactTimer.js';
 import Results from './Results/Results.js';
-import Timer from '../../components/Timer.js';
 import constellations from '../../util/constellations.js';
 import { constellationTrivia as instructions } from '../../util/documentation/instructions.js';
 
@@ -22,7 +22,7 @@ function ConstellationTriviaGame(){
     const [constellationState, setConstellationState] = useState<string>("galaxy");
     const [answerButtonsState, setAnswerButtonsState] = useState<answer[]>([]);
     const [endGameState, setEndGameState] = useState<boolean>(false);
-    const gameTimer = Timer();
+    const gameTimer = ReactTimer();
 
     const quizRef = useRef<question[]>([]);
     const quizLengthRef = useRef(0);
