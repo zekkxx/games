@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Navbar(){
     return(
         <nav>
-            <h2><Link to="/">K's Game Collection!</Link></h2>
+            <h2><Link to="/">arKade</Link></h2>
             <ul>
                 <li><Link to="/library">Library</Link></li>
                 <li><Link to="/about">About</Link></li>

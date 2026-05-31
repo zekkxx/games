@@ -62,7 +62,7 @@ function App() {
       ]
     }
   ], {
-    basename: "/games"
+    basename: "/arKade"
   });
 
   return <RouterProvider router={router} />;
